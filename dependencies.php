@@ -87,7 +87,7 @@ if ($tabla === "tanques") {
     ];
 }
 
-if($tabla === 'exhibicion_evento') {
+/*if($tabla === 'exhibicion_evento') {
     // Exhibiciones relacionadas
     $sql = "SELECT * FROM exhibiciones WHERE id_exhibicion = ?";
     $stmt = $conn->prepare($sql);
@@ -116,6 +116,8 @@ if($tabla === 'exhibicion_evento') {
     $columnas['Eventos'] = [
         'ID Evento' => 'id_evento',
         'Nombre' => 'nombre_evento',
+        'Fecha Inicio' => 'fecha_in',
+        'Fecha Fin' => 'fecha_fin',
         'Fecha' => 'fecha_evento',
         'Descripción' => 'descripcion_evento'
     ];
@@ -124,7 +126,7 @@ if($tabla === 'exhibicion_evento') {
         'delete' => 'eventos/delete.php',
         'id' => 'id_evento'
     ];
-}
+}*/
 
 if($tabla === 'exhibiciones') {
     // Exhibicion_evento relacionadas
@@ -141,11 +143,88 @@ if($tabla === 'exhibiciones') {
     $acciones['Exhibicion_evento'] = [
         'edit' => 'exhibicion_evento/update.php',
         'delete' => 'exhibicion_evento/delete.php',
-        'id' => 'id_exhibicion_evento'
+        'id' => 'id_EVEX'
     ];
 
     // Tanques relacionados
     $sql = "SELECT * FROM tanques WHERE id_tanque = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $dependencias['Tanques'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $columnas['Tanques'] = [
+        'ID Tanque' => 'id_tanque',
+        'Modelo' => 'modelo',
+        'Nombre' => 'nombre_tanque',
+        'Tipo' => 'tipo_tanque',
+        'Año' => 'anio_fabricacion',
+        'Pais' => 'id_pais',
+    ];
+    $acciones['Tanques'] = [
+        'edit' => 'tanques/update.php',
+        'delete' => 'tanques/delete.php',
+        'id' => 'id_tanque'
+    ];
+}
+
+if($tabla === 'mantenimientos') {
+    // Mantenimientos_Personal relacionados
+    $sql = "SELECT * FROM mantenimiento_personal WHERE id_mantenimiento = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $dependencias['Mantenimientos_Personal'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $columnas['Mantenimientos_Personal'] = [
+        'ID Relación' => 'id_MP',
+        'ID Personal' => 'id_personal'
+    ];
+    $acciones['Mantenimientos_Personal'] = [
+        'edit' => 'mantenimiento_personal/update.php',
+        'delete' => 'mantenimiento_personal/delete.php',
+        'id' => 'id_MP'
+    ];
+}
+
+if ($tabla === 'eventos') {
+    // Exhibicion_evento relacionadas
+    $sql = "SELECT * FROM exhibicion_evento WHERE id_evento = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $dependencias['Exhibicion_evento'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $columnas['Exhibicion_evento'] = [
+        'ID Exhibicion_evento' => 'id_EVEX',
+        'ID Exhibición' => 'id_exhibicion',
+        'ID Evento' => 'id_evento',
+    ];
+    $acciones['Exhibicion_evento'] = [
+        'edit' => 'exhibicion_evento/update.php',
+        'delete' => 'exhibicion_evento/delete.php',
+        'id' => 'id_EVEX'
+    ];
+}
+
+if ($tabla === 'batallas') {
+    // Tanques_batallas relacionadas
+    $sql = "SELECT * FROM tanques_batallas WHERE id_batalla = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $dependencias['Tanques en Batallas'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $columnas['Tanques en Batallas'] = [
+        'ID Relación' => 'id_TB',
+        'ID Tanque' => 'id_tanque'
+    ];
+    $acciones['Tanques en Batallas'] = [
+        'edit' => 'tanques_batallas/update.php',
+        'delete' => 'tanques_batallas/delete.php',
+        'id' => 'id_TB'
+    ];
+}
+
+if($tabla === 'paises') {
+    // Tanques relacionados
+    $sql = "SELECT * FROM tanques WHERE id_pais = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();

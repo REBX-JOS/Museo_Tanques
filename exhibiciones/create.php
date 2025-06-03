@@ -52,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php while($row = $tq->fetch_assoc()): ?>
             <option value="<?= $row['id_tanque'] ?>"><?= $row['id_tanque'] ?></option>
         <?php endwhile; ?>
-    </select><br>
+    </select><br><br>
     <input type="submit" value="Crear">
     <input type="submit" value="Regresar" formaction="read.php" formnovalidate>
 </form>

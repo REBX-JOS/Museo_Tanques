@@ -1,11 +1,20 @@
 <?php
 include_once "../config.php";
 $id = $_GET['id'] ?? null;
+
 if ($id) {
-    $sql = "DELETE FROM mantenimientos WHERE id_mantenimiento=?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
+    try {
+        $sql = "DELETE FROM mantenimientos WHERE id_mantenimiento=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        header("Location: read.php");
+        exit;
+    } catch (mysqli_sql_exception $e) {
+        // Redirige a dependencias
+        header("Location: ../dependencies.php?id=$id&tabla=mantenimientos");
+        exit;
+    }
 }
 header("Location: read.php");
 exit;
