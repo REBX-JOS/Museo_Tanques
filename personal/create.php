@@ -1,0 +1,49 @@
+<?php
+include_once "../config.php";
+$msg = "";
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id_personal = $_POST["id_personal"];
+    $nombre_personal = $_POST["nombre_personal"];
+    $puesto = $_POST["puesto"];
+    $num_tel = $_POST["num_tel"];
+
+    // Verificar si ya existe el id_personal
+    $check = $conn->prepare("SELECT 1 FROM personal WHERE id_personal = ?");
+    $check->bind_param("i", $id_personal);
+    $check->execute();
+    $check->store_result();
+    if ($check->num_rows > 0) {
+        $msg = "Ya existe un registro con ese ID.";
+    } else {
+        $sql = "INSERT INTO personal (id_personal, nombre_personal, puesto, num_tel) VALUES (?, ?, ?, ?)";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("issi", $id_personal, $nombre_personal, $puesto, $num_tel);
+        if ($stmt->execute()) {
+            $msg = "Personal creado correctamente.";
+        } else {
+            $msg = "Error: " . $conn->error;
+        }
+    }
+    $check->close();
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Crear Personal</title>
+    <link rel="stylesheet" href="../estilos.css">
+</head>
+<body>
+<?php include "../menu.php"; ?>
+<h2>Crear Personal</h2>
+<form method="post">
+    ID Personal: <input type="number" name="id_personal" required><br>
+    Nombre: <input type="text" name="nombre_personal" required><br>
+    Puesto: <input type="text" name="puesto" required><br>
+    Teléfono: <input type="number" name="num_tel"><br>
+    <input type="submit" value="Crear">
+    <input type="submit" value="Regresar" formaction="read.php" formnovalidate>
+</form>
+<p><?= $msg ?></p>
+</body>
+</html>
