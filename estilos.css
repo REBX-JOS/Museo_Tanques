@@ -1,0 +1,99 @@
+/* SOLO MENU */
+nav ul.main-menu, nav ul.main-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+nav ul.main-menu {
+    background: #222;
+    display: flex;
+    flex-wrap: wrap;
+}
+nav ul.main-menu > li {
+    position: relative;
+    display: inline-block;
+}
+nav ul.main-menu > li > a,
+nav ul.main-menu > li {
+    text-align: center;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    white-space: nowrap;
+}
+nav ul.main-menu > li:hover,
+nav ul.main-menu > li:hover > a,
+nav ul.main-menu > li > a:focus {
+    background: #444;
+}
+nav ul.main-menu > li > ul {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: #333;
+    min-width: 220px;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+nav ul.main-menu > li:hover > ul,
+nav ul.main-menu > li:focus-within > ul {
+    display: block;
+}
+nav ul.main-menu ul li {
+    position: relative;
+    display: block;
+}
+nav ul.main-menu ul li:hover,
+nav ul.main-menu ul li:focus-within {
+    background: #444;
+}
+nav ul.main-menu ul ul {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: #222;
+    min-width: 180px;
+    z-index: 1001;
+    box-shadow: 2px 0 8px rgba(0,0,0,0.12);
+}
+nav ul.main-menu ul li:hover > ul,
+nav ul.main-menu ul li:focus-within > ul {
+    display: block;
+}
+nav ul.main-menu ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    display: block;
+    white-space: nowrap;
+}
+nav ul.main-menu ul li a:hover {
+    background: #555;
+}
+
+/* TUS ESTILOS DE TABLA Y OTROS, DEJANLOS IGUAL */
+table { 
+    font-family: sans-serif;
+    border-collapse: collapse; 
+    background: #fff; 
+}
+th, td { 
+    padding: 8px 12px; 
+    border: 1px solid #ccc; 
+}
+
+input[type="text"], input[type="date"], input[type="number"] { 
+    padding: 5px; 
+    margin: 5px 0; 
+}
+
+input[type="submit"] { 
+    padding: 8px 16px; 
+    background: #333; 
+    color: #fff; 
+    border: none; 
+}
