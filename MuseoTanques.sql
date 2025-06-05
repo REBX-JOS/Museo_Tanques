@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `batallas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `batallas` (
-  `id_batalla` int(11) NOT NULL,
+  `id_batalla` int(11) NOT NULL AUTO_INCREMENT,
   `fecha` date DEFAULT NULL,
   `nombre_batalla` varchar(100) DEFAULT NULL,
   `lugar_batalla` varchar(100) DEFAULT NULL,
   `descripcion_batalla` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`id_batalla`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=9920 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -50,7 +50,7 @@ DROP TABLE IF EXISTS `especificaciones`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `especificaciones` (
-  `id_tanque` int(11) NOT NULL,
+  `id_tanque` int(11) NOT NULL AUTO_INCREMENT,
   `peso_toneladas` float DEFAULT NULL,
   `longitud_metros` float DEFAULT NULL,
   `blindaje_mm` int(11) DEFAULT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE `especificaciones` (
   `armamento_principal` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_tanque`),
   CONSTRAINT `especificaciones_ibfk_1` FOREIGN KEY (`id_tanque`) REFERENCES `tanques` (`id_tanque`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -67,7 +67,7 @@ CREATE TABLE `especificaciones` (
 
 LOCK TABLES `especificaciones` WRITE;
 /*!40000 ALTER TABLE `especificaciones` DISABLE KEYS */;
-INSERT INTO `especificaciones` VALUES (4390,61.4,9.7,300,67.2,'Canon M256 de 120 mm'),(4391,46.5,9.6,250,60,'Canon 2A46M-5 de 125 mm'),(4392,62.3,9.97,350,72,'Canon Rheinmetall L/55 de 120 mm'),(4393,62.5,8.3,400,56,'Canon L30A1 de 120 mm'),(4394,57.4,9.8,400,71,'Canon GIAT CN120-26 de 120 mm'),(4395,44,9.4,300,70,'Canon L/44 de 120 mm'),(4396,54,10.3,350,80,'Canon ZPT-98 de 125 mm'),(4397,58.5,10.2,400,58,'Canon Rheinmetall L/44 de 120 mm'),(4398,65,9.04,420,64,'Canon MG253 de 120 mm'),(4399,46.2,9.54,300,55,'Canon EC-105 de 120 mm'),(4400,54.5,8.2,400,60,'Canon L7A3 de 105 mm'),(4401,15.2,6.57,150,120,'Canon Bushmaster II de 25 mm'),(4402,55.15,9.89,360,65,'Canon L7A3 de 105 mm'),(4403,54,7.6,350,70,'Canon OTO Breda 120 mm'),(4404,60,10.1,400,65,'Canon Rheinmetall L/55 de 120 mm');
+INSERT INTO `especificaciones` VALUES (4390,61.4,9.7,300,67.2,'Canon M256 de 120 mm'),(4391,46.5,9.6,250,60,'Canon 2A46M-5 de 125 mm'),(4392,62.3,9.97,350,72,'Canon Rheinmetall L/55 de 120 mm'),(4393,62.5,8.3,400,56,'Canon L30A1 de 120 mm'),(4394,57.4,9.8,400,71,'Canon GIAT CN120-26 de 120 mm'),(4395,44,9.4,300,70,'Canon L/44 de 120 mm'),(4396,54,10.3,350,80,'Canon ZPT-98 de 125 mm'),(4397,58.5,10.2,400,58,'Canon Rheinmetall L/44 de 120 mm'),(4398,65,9.04,420,64,'Canon MG253 de 120 mm'),(4399,46.2,9.54,300,55,'Canon EC-105 de 120 mm'),(4400,54.5,8.2,400,60,'Canon L7A3 de 105 mm'),(4401,15.2,6.57,150,120,'Canon Bushmaster II de 25 mm'),(4402,55.15,9.89,360,65,'Canon L7A3 de 105 mm'),(4403,54,7.6,350,70,'Canon OTO Breda 120 mm'),(4406,60,10.1,400,65,'Canon Rheinmetall L/55 de 120 mm');
 /*!40000 ALTER TABLE `especificaciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -79,13 +79,13 @@ DROP TABLE IF EXISTS `eventos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `eventos` (
-  `id_evento` int(11) NOT NULL,
+  `id_evento` int(11) NOT NULL AUTO_INCREMENT,
   `fecha_in` datetime DEFAULT NULL,
   `fecha_fin` datetime DEFAULT NULL,
   `nombre_evento` varchar(100) DEFAULT NULL,
   `descripcion_evento` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_evento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6619 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -106,15 +106,15 @@ DROP TABLE IF EXISTS `exhibicion_evento`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `exhibicion_evento` (
-  `id_EVEX` int(11) NOT NULL,
+  `id_EVEX` int(11) NOT NULL AUTO_INCREMENT,
   `id_exhibicion` int(11) DEFAULT NULL,
   `id_evento` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_EVEX`),
-  KEY `id_exhibicion` (`id_exhibicion`),
   KEY `id_evento` (`id_evento`),
+  KEY `exhibicion_evento_ibfk_1` (`id_exhibicion`),
   CONSTRAINT `exhibicion_evento_ibfk_1` FOREIGN KEY (`id_exhibicion`) REFERENCES `exhibiciones` (`id_exhibicion`),
   CONSTRAINT `exhibicion_evento_ibfk_2` FOREIGN KEY (`id_evento`) REFERENCES `eventos` (`id_evento`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -123,7 +123,7 @@ CREATE TABLE `exhibicion_evento` (
 
 LOCK TABLES `exhibicion_evento` WRITE;
 /*!40000 ALTER TABLE `exhibicion_evento` DISABLE KEYS */;
-INSERT INTO `exhibicion_evento` VALUES (1,5501,6601),(2,5502,6602),(3,5503,6603),(4,5504,6604),(5,5505,6605),(6,5506,6606),(7,5507,6607),(8,5508,6608),(9,5509,6609),(10,5510,6610),(11,5511,6611),(12,5512,6612),(13,5513,6613),(14,5514,6614),(15,5515,6615);
+INSERT INTO `exhibicion_evento` VALUES (1,5501,6601),(2,5502,6602),(3,5503,6603),(4,5504,6604),(5,5505,6605),(6,5506,6606),(7,5507,6607),(8,5508,6608),(9,5509,6609),(10,5510,6610),(11,5511,6611),(12,5512,6612),(13,5513,6613),(14,5514,6614),(19,5501,6606);
 /*!40000 ALTER TABLE `exhibicion_evento` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -135,15 +135,16 @@ DROP TABLE IF EXISTS `exhibiciones`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `exhibiciones` (
-  `id_exhibicion` int(11) NOT NULL,
+  `id_exhibicion` int(11) NOT NULL AUTO_INCREMENT,
+  `nombre_ex` varchar(100) DEFAULT NULL,
   `fecha_exhibicion` date DEFAULT NULL,
   `lugar_exhibicion` varchar(100) DEFAULT NULL,
   `descripcion_exhibicion` varchar(255) DEFAULT NULL,
   `id_tanque` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_exhibicion`),
-  KEY `id_tanque` (`id_tanque`),
+  KEY `exhibiciones_ibfk_1` (`id_tanque`),
   CONSTRAINT `exhibiciones_ibfk_1` FOREIGN KEY (`id_tanque`) REFERENCES `tanques` (`id_tanque`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5524 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -152,7 +153,7 @@ CREATE TABLE `exhibiciones` (
 
 LOCK TABLES `exhibiciones` WRITE;
 /*!40000 ALTER TABLE `exhibiciones` DISABLE KEYS */;
-INSERT INTO `exhibiciones` VALUES (5501,'2023-03-12','Museo Nacional','Exhibicion de tanques modernos',4390),(5502,'2022-11-15','Parque Central','Evento de tecnologia militar',4391),(5503,'2021-07-04','Base Militar Alfa','Exhibicion historica',4392),(5504,'2023-05-20','Expo Militar 2023','Nuevas tecnologias',4393),(5505,'2020-10-01','Museo de Historia','Tanques clasicos',4394),(5506,'2023-01-12','Expo Asia','Vehiculos blindados',4395),(5507,'2022-12-25','Plaza Roja','Equipamiento militar',4396),(5508,'2021-05-10','Expo Defensa','Innovacion militar',4397),(5509,'2023-09-17','Base Delta','Tecnologia israeli',4398),(5510,'2021-04-03','Museo Sudamericano','Historia y guerra',4399),(5511,'2022-08-29','Base Bravo','Evento de vehiculos',4400),(5512,'2023-06-11','Expo Oceanica','Fuerzas especiales',4401),(5513,'2023-02-14','Plaza Militar','Tanques canadienses',4402),(5514,'2020-09-05','Expo Europa','Vehiculos pesados',4403),(5515,'2023-03-30','Expo Turquia','Nuevos desarrollos',4404);
+INSERT INTO `exhibiciones` VALUES (5501,'Tanques Modernos','2023-03-12','Museo Nacional','Exhibicion de tecnologia y modelos de tanques contemporaneos',4390),(5502,'Tecnologia Militar 2022','2022-11-15','Parque Central','Evento dedicado a avances recientes en sistemas de defensa y armamento',4391),(5503,'Historia en Alfa','2021-07-04','Base Militar Alfa','Recorrido historico por los tanques mas emblematicos de la base Alfa',4392),(5504,'Expo Militar 2023','2023-05-20','Expo Militar 2023','Presentacion de innovaciones y prototipos militares del anio 2023',4393),(5505,'Clasicos Belicos','2020-10-01','Museo de Historia','Muestra de tanques clasicos y vehiculos utilizados en grandes guerras',4394),(5506,'Blindados Asiaticos','2023-01-12','Expo Asia','Vehiculos blindados destacados provenientes de Asia',4395),(5507,'Fuerza en Plaza Roja','2022-12-25','Plaza Roja','Exhibicion de equipamiento y tecnologia militar de Europa del Este',4396),(5508,'Innovacion Militar','2021-05-10','Expo Defensa','Nuevas propuestas y desarrollos en blindaje y movilidad en defensa',4397),(5509,'Tecnologia Israeli','2023-09-17','Base Delta','Muestra de tecnologia militar avanzada desarrollada en Israel',4398),(5510,'Sudamerica en Guerra','2021-04-03','Museo Sudamericano','Historia y evolucion de tanques en conflictos sudamericanos',4399),(5511,'Vehiculos en Bravo','2022-08-29','Base Bravo','Evento enfocado en vehiculos militares de transporte y apoyo',4400),(5512,'Operaciones Oceanicas','2023-06-11','Expo Oceanica','Fuerzas especiales y operaciones anfibias con vehiculos blindados',4401),(5513,'Tanques Canadienses','2023-02-14','Plaza Militar','Exhibicion de modelos historicos y actuales de Canada',4402),(5514,'Expo Europa Pesados','2020-09-05','Expo Europa','Vehiculos pesados destacados utilizados en Europa',4403);
 /*!40000 ALTER TABLE `exhibiciones` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -164,15 +165,15 @@ DROP TABLE IF EXISTS `mantenimiento_personal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mantenimiento_personal` (
-  `id_MP` int(11) NOT NULL,
+  `id_MP` int(11) NOT NULL AUTO_INCREMENT,
   `id_mantenimiento` int(11) DEFAULT NULL,
   `id_personal` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_MP`),
-  KEY `id_mantenimiento` (`id_mantenimiento`),
-  KEY `id_personal` (`id_personal`),
+  KEY `mantenimiento_personal_ibfk_2` (`id_personal`),
+  KEY `mantenimiento_personal_ibfk_1` (`id_mantenimiento`),
   CONSTRAINT `mantenimiento_personal_ibfk_1` FOREIGN KEY (`id_mantenimiento`) REFERENCES `mantenimientos` (`id_mantenimiento`),
   CONSTRAINT `mantenimiento_personal_ibfk_2` FOREIGN KEY (`id_personal`) REFERENCES `personal` (`id_personal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -181,7 +182,7 @@ CREATE TABLE `mantenimiento_personal` (
 
 LOCK TABLES `mantenimiento_personal` WRITE;
 /*!40000 ALTER TABLE `mantenimiento_personal` DISABLE KEYS */;
-INSERT INTO `mantenimiento_personal` VALUES (1,8801,7701),(2,8802,7702),(3,8803,7703),(4,8804,7704),(5,8805,7705),(6,8806,7706),(7,8807,7707),(8,8808,7708),(9,8809,7709),(10,8810,7710),(11,8811,7711),(12,8812,7712),(13,8813,7713),(14,8814,7714),(15,8815,7715);
+INSERT INTO `mantenimiento_personal` VALUES (1,8801,7701),(2,8802,7702),(3,8803,7703),(4,8804,7704),(5,8805,7705),(6,8806,7706),(7,8807,7707),(8,8808,7708),(9,8809,7709),(10,8810,7710),(11,8811,7711),(12,8812,7712),(13,8813,7713),(14,8814,7714),(18,8815,7715);
 /*!40000 ALTER TABLE `mantenimiento_personal` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -193,15 +194,15 @@ DROP TABLE IF EXISTS `mantenimientos`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `mantenimientos` (
-  `id_mantenimiento` int(11) NOT NULL,
+  `id_mantenimiento` int(11) NOT NULL AUTO_INCREMENT,
   `id_tanque` int(11) DEFAULT NULL,
   `fecha_mantenimiento` datetime DEFAULT NULL,
   `tipo_mantenimiento` varchar(100) DEFAULT NULL,
   `notas` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id_mantenimiento`),
-  KEY `id_tanque` (`id_tanque`),
+  KEY `mantenimientos_ibfk_1` (`id_tanque`),
   CONSTRAINT `mantenimientos_ibfk_1` FOREIGN KEY (`id_tanque`) REFERENCES `tanques` (`id_tanque`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8821 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -210,7 +211,7 @@ CREATE TABLE `mantenimientos` (
 
 LOCK TABLES `mantenimientos` WRITE;
 /*!40000 ALTER TABLE `mantenimientos` DISABLE KEYS */;
-INSERT INTO `mantenimientos` VALUES (8801,4390,'2023-03-01 09:00:00','Preventivo','Revisar sistema de propulsion'),(8802,4391,'2023-01-15 10:00:00','Correctivo','Reparar blindaje lateral'),(8803,4392,'2022-12-20 11:00:00','Preventivo','Actualizar software de disparo'),(8804,4393,'2023-02-05 12:00:00','Correctivo','Ajustar suspension delantera'),(8805,4394,'2023-04-10 13:00:00','Preventivo','Verificar sistema de combustible'),(8806,4395,'2022-11-25 14:00:00','Correctivo','Sustituir visor optico'),(8807,4396,'2023-06-18 15:00:00','Preventivo','Limpiar canon principal'),(8808,4397,'2022-09-14 16:00:00','Correctivo','Reparar oruga izquierda'),(8809,4398,'2023-07-20 17:00:00','Preventivo','Actualizar sensores de tiro'),(8810,4399,'2023-05-03 18:00:00','Correctivo','Reparar sistema hidraulico'),(8811,4400,'2023-03-25 19:00:00','Preventivo','Revisar unidad de mando'),(8812,4401,'2022-08-30 20:00:00','Correctivo','Sustituir bateria principal'),(8813,4402,'2023-01-10 21:00:00','Preventivo','Ajustar frenos'),(8814,4403,'2023-03-17 22:00:00','Correctivo','Cambiar visor nocturno'),(8815,4404,'2023-04-22 23:00:00','Preventivo','Inspeccionar cableado electrico');
+INSERT INTO `mantenimientos` VALUES (8801,4390,'2023-03-01 09:00:00','Preventivo','Revisar sistema de propulsion'),(8802,4391,'2023-01-15 10:00:00','Correctivo','Reparar blindaje lateral'),(8803,4392,'2022-12-20 11:00:00','Preventivo','Actualizar software de disparo'),(8804,4393,'2023-02-05 12:00:00','Correctivo','Ajustar suspension delantera'),(8805,4394,'2023-04-10 13:00:00','Preventivo','Verificar sistema de combustible'),(8806,4395,'2022-11-25 14:00:00','Correctivo','Sustituir visor optico'),(8807,4396,'2023-06-18 15:00:00','Preventivo','Limpiar canon principal'),(8808,4397,'2022-09-14 16:00:00','Correctivo','Reparar oruga izquierda'),(8809,4398,'2023-07-20 17:00:00','Preventivo','Actualizar sensores de tiro'),(8810,4399,'2023-05-03 18:00:00','Correctivo','Reparar sistema hidraulico'),(8811,4400,'2023-03-25 19:00:00','Preventivo','Revisar unidad de mando'),(8812,4401,'2022-08-30 20:00:00','Correctivo','Sustituir bateria principal'),(8813,4402,'2023-01-10 21:00:00','Preventivo','Ajustar frenos'),(8814,4403,'2023-03-17 22:00:00','Correctivo','Cambiar visor nocturno'),(8815,4403,'2025-06-04 23:30:00','Preventivo','Inspeccionar cableado electrico'),(8817,4406,'2025-06-04 23:34:58','Preventivo','Mantenimiento inicial');
 /*!40000 ALTER TABLE `mantenimientos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -222,12 +223,12 @@ DROP TABLE IF EXISTS `paises`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `paises` (
-  `id_pais` int(11) NOT NULL,
+  `id_pais` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_pais` varchar(100) DEFAULT NULL,
   `capital` varchar(100) DEFAULT NULL,
   `region` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id_pais`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=1371 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -236,7 +237,7 @@ CREATE TABLE `paises` (
 
 LOCK TABLES `paises` WRITE;
 /*!40000 ALTER TABLE `paises` DISABLE KEYS */;
-INSERT INTO `paises` VALUES (1353,'Estados Unidos','Washington DC','America'),(1354,'Rusia','Moscu','Europa'),(1355,'Alemania','Berlin','Europa'),(1356,'Reino Unido','Londres','Europa'),(1357,'Francia','Paris','Europa'),(1358,'Japon','Tokio','Asia'),(1359,'China','Pekin','Asia'),(1360,'India','Nueva Delhi','Asia'),(1361,'Israel','Jerusalen','Asia'),(1362,'Brasil','Brasilia','America'),(1363,'Sudafrica','Pretoria','Africa'),(1364,'Australia','Canberra','Oceania'),(1365,'Canada','Ottawa','America'),(1366,'Italia','Roma','Europa'),(1367,'Turquia','Ankara','Asia');
+INSERT INTO `paises` VALUES (1353,'Estados Unidos','Washington DC','America'),(1354,'Rusia','Moscu','Europa'),(1355,'Alemania','Berlin','Europa'),(1356,'Reino Unido','Londres','Europa'),(1357,'Francia','Paris','Europa'),(1358,'Japon','Tokio','Asia'),(1359,'China','Pekin','Asia'),(1360,'India','Nueva Delhi','Asia'),(1361,'Israel','Jerusalen','Asia'),(1362,'Brasil','Brasilia','America'),(1363,'Sudafrica','Pretoria','Africa'),(1364,'Australia','Canberra','Oceania'),(1365,'Canada','Ottawa','America'),(1366,'Italia','Roma','Europa'),(1367,'Turquia','Ankara','Asia'),(1370,'1','1','1');
 /*!40000 ALTER TABLE `paises` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -248,12 +249,12 @@ DROP TABLE IF EXISTS `personal`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `personal` (
-  `id_personal` int(11) NOT NULL,
+  `id_personal` int(11) NOT NULL AUTO_INCREMENT,
   `nombre_personal` text DEFAULT NULL,
   `puesto` text DEFAULT NULL,
   `num_tel` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_personal`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7718 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -274,16 +275,16 @@ DROP TABLE IF EXISTS `tanques`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tanques` (
-  `id_tanque` int(11) NOT NULL,
+  `id_tanque` int(11) NOT NULL AUTO_INCREMENT,
   `modelo` text DEFAULT NULL,
   `nombre_tanque` text DEFAULT NULL,
   `tipo_tanque` text DEFAULT NULL,
   `anio_fabricacion` int(11) DEFAULT NULL,
   `id_pais` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_tanque`),
-  KEY `id_pais` (`id_pais`),
+  KEY `tanques_ibfk_1` (`id_pais`),
   CONSTRAINT `tanques_ibfk_1` FOREIGN KEY (`id_pais`) REFERENCES `paises` (`id_pais`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=4410 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +293,7 @@ CREATE TABLE `tanques` (
 
 LOCK TABLES `tanques` WRITE;
 /*!40000 ALTER TABLE `tanques` DISABLE KEYS */;
-INSERT INTO `tanques` VALUES (4390,'M1 Abrams','Abrams','Tanque de batalla principal',1980,1353),(4391,'T-90','T-90A','Tanque de batalla principal',1992,1354),(4392,'Leopard 2','Leopard','Tanque de batalla principal',1979,1355),(4393,'Challenger 2','Challenger','Tanque de batalla principal',1994,1356),(4394,'AMX-56','Leclerc','Tanque de batalla principal',1992,1357),(4395,'Type 10','TK-X','Tanque de batalla principal',2012,1358),(4396,'ZTZ-99','Tipo 99','Tanque de batalla principal',2001,1359),(4397,'Arjun Mk II','Arjun','Tanque de batalla principal',2010,1360),(4398,'Merkava','Merkava Mk IV','Tanque de batalla principal',2004,1361),(4399,'EE-T1','Osorio','Tanque de batalla principal',1985,1362),(4400,'Olifant','Olifant Mk1B','Tanque de batalla principal',1991,1363),(4401,'ASLAV','ASLAV-PC','Tanque ligero',1995,1364),(4402,'Leopard C2','Leopard C2','Tanque de batalla principal',1996,1365),(4403,'Ariete','C1 Ariete','Tanque de batalla principal',1995,1366),(4404,'Altay','Altay','Tanque de batalla principal',2018,1367);
+INSERT INTO `tanques` VALUES (4390,'M1 Abrams','Abrams','Tanque de batalla principal',1980,1353),(4391,'T-90','T-90A','Tanque de batalla principal',1992,1354),(4392,'Leopard 2','Leopard','Tanque de batalla principal',1979,1355),(4393,'Challenger 2','Challenger','Tanque de batalla principal',1994,1356),(4394,'AMX-56','Leclerc','Tanque de batalla principal',1992,1357),(4395,'Type 10','TK-X','Tanque de batalla principal',2012,1358),(4396,'ZTZ-99','Tipo 99','Tanque de batalla principal',2001,1359),(4397,'Arjun Mk II','Arjun','Tanque de batalla principal',2010,1360),(4398,'Merkava','Merkava Mk IV','Tanque de batalla principal',2004,1361),(4399,'EE-T1','Osorio','Tanque de batalla principal',1985,1362),(4400,'Olifant','Olifant Mk1B','Tanque de batalla principal',1991,1363),(4401,'ASLAV','ASLAV-PC','Tanque ligero',1995,1364),(4402,'Leopard C2','Leopard C2','Tanque de batalla principal',1996,1365),(4403,'Ariete','C1 Ariete','Tanque de batalla principal',1995,1366),(4406,'Altay','Altay','Tanque de batalla principal',2018,1367);
 /*!40000 ALTER TABLE `tanques` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -305,11 +306,11 @@ UNLOCK TABLES;
 /*!50003 SET sql_mode              = 'NO_ZERO_IN_DATE,NO_ZERO_DATE,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER after_insert_tanques
-AFTER INSERT
-ON tanques FOR EACH ROW
+AFTER INSERT ON tanques
+FOR EACH ROW
 BEGIN
-    INSERT INTO mantenimientos (id_mantenimiento, id_tanque, fecha_mantenimiento, tipo_mantenimiento, notas)
-    VALUES (NEW.id_tanque * 100, NEW.id_tanque, NOW(), 'Preventivo', 'Mantenimiento inicial');
+  INSERT INTO mantenimientos (id_tanque, fecha_mantenimiento, tipo_mantenimiento, notas)
+  VALUES (NEW.id_tanque, NOW(), 'Preventivo', 'Mantenimiento inicial');
 END */;;
 DELIMITER ;
 /*!50003 SET sql_mode              = @saved_sql_mode */ ;
@@ -325,15 +326,15 @@ DROP TABLE IF EXISTS `tanques_batallas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tanques_batallas` (
-  `id_TB` int(11) NOT NULL,
+  `id_TB` int(11) NOT NULL AUTO_INCREMENT,
   `id_tanque` int(11) DEFAULT NULL,
   `id_batalla` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_TB`),
-  KEY `id_tanque` (`id_tanque`),
   KEY `id_batalla` (`id_batalla`),
+  KEY `tanques_batallas_ibfk_1` (`id_tanque`),
   CONSTRAINT `tanques_batallas_ibfk_1` FOREIGN KEY (`id_tanque`) REFERENCES `tanques` (`id_tanque`),
   CONSTRAINT `tanques_batallas_ibfk_2` FOREIGN KEY (`id_batalla`) REFERENCES `batallas` (`id_batalla`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,8 +343,32 @@ CREATE TABLE `tanques_batallas` (
 
 LOCK TABLES `tanques_batallas` WRITE;
 /*!40000 ALTER TABLE `tanques_batallas` DISABLE KEYS */;
-INSERT INTO `tanques_batallas` VALUES (1,4390,9901),(2,4391,9902),(3,4392,9903),(4,4393,9904),(5,4394,9905),(6,4395,9906),(7,4396,9907),(8,4397,9908),(9,4398,9909),(10,4399,9910),(11,4400,9911),(12,4401,9912),(13,4402,9913),(14,4403,9914),(15,4404,9915);
+INSERT INTO `tanques_batallas` VALUES (1,4390,9901),(2,4391,9902),(3,4392,9903),(4,4393,9904),(5,4394,9905),(6,4395,9906),(7,4396,9907),(8,4397,9908),(9,4398,9909),(10,4399,9910),(11,4400,9911),(12,4401,9912),(13,4402,9913),(14,4403,9914),(18,4406,9915);
 /*!40000 ALTER TABLE `tanques_batallas` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `usuarios`
+--
+
+DROP TABLE IF EXISTS `usuarios`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `usuarios` (
+  `id_usuario` int(11) NOT NULL AUTO_INCREMENT,
+  `usuario` varchar(20) DEFAULT NULL,
+  `contrasena` varchar(100) DEFAULT NULL,
+  PRIMARY KEY (`id_usuario`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `usuarios`
+--
+
+LOCK TABLES `usuarios` WRITE;
+/*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
+/*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -423,4 +448,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-04-26  9:59:23
+-- Dump completed on 2025-06-05  1:27:51
