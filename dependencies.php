@@ -36,11 +36,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $sql = "DELETE FROM tanques WHERE id_tanque = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada del tanque realizada con éxito.</span>";
-        } else {
-            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
-        }
     }
 
     // Eliminación en cascada manual de personal
@@ -55,11 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $sql = "DELETE FROM personal WHERE id_personal = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
-        } else {
-            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
-        }
     }
 
     // Eliminación en cascada manual de paises
@@ -112,11 +102,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $sql = "DELETE FROM paises WHERE id_pais = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
-        } else {
-            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
-        }
     }
 
     // Eliminación en cascada manual de mantenimientos
@@ -131,11 +116,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $sql = "DELETE FROM mantenimientos WHERE id_mantenimiento = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
-        } else {
-            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
-        }
     }
 
     // Eliminación en cascada manual de exhibiciones
@@ -150,11 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $sql = "DELETE FROM exhibiciones WHERE id_exhibicion = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
-        } else {
-            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
-        }
     }
 
     // Eliminación en cascada manual de eventos
@@ -169,11 +144,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $sql = "DELETE FROM eventos WHERE id_evento = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
-        } else {
-            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
-        }
     }
 
     // Eliminación en cascada manual de batallas
@@ -188,13 +158,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $sql = "DELETE FROM batallas WHERE id_batalla = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
-        if ($stmt->execute()) {
-            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
-        } else {
-            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
-        }
     }
 
+    if ($stmt->execute()) {
+        $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
+    } else {
+        $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
+    }
 }
 
 $dependencias = [];
