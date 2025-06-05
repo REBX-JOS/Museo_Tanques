@@ -19,4 +19,3 @@ if ($id) {
 }
 header("Location: read.php");
 exit;
-?>

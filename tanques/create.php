@@ -6,24 +6,23 @@ $msg = "";
 $paises = $conn->query("SELECT id_pais, nombre_pais FROM paises");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $id_tanque = $_POST["id_tanque"];
     $modelo = $_POST["modelo"];
     $nombre_tanque = $_POST["nombre_tanque"];
     $tipo_tanque = $_POST["tipo_tanque"];
     $anio_fabricacion = $_POST["anio_fabricacion"];
     $id_pais = $_POST["id_pais"] ?: null;
 
-    // Verificar si ya existe ese ID
-    $check = $conn->prepare("SELECT 1 FROM tanques WHERE id_tanque=?");
-    $check->bind_param("i", $id_tanque);
+    // Verificar si ya existe el tanque con ese nombre y modelo (puedes cambiar la lógica según tu caso)
+    $check = $conn->prepare("SELECT 1 FROM tanques WHERE nombre_tanque = ? AND modelo = ?");
+    $check->bind_param("ss", $nombre_tanque, $modelo);
     $check->execute();
     $check->store_result();
     if ($check->num_rows > 0) {
-        $msg = "Ya existe un tanque con ese ID.";
+        $msg = "Ya existe un tanque con ese nombre y modelo.";
     } else {
-        $sql = "INSERT INTO tanques (id_tanque, modelo, nombre_tanque, tipo_tanque, anio_fabricacion, id_pais) VALUES (?, ?, ?, ?, ?, ?)";
+        $sql = "INSERT INTO tanques (modelo, nombre_tanque, tipo_tanque, anio_fabricacion, id_pais) VALUES (?, ?, ?, ?, ?)";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("isssii", $id_tanque, $modelo, $nombre_tanque, $tipo_tanque, $anio_fabricacion, $id_pais);
+        $stmt->bind_param("sssii", $modelo, $nombre_tanque, $tipo_tanque, $anio_fabricacion, $id_pais);
         if ($stmt->execute()) {
             $msg = "Tanque creado correctamente.";
         } else {
@@ -43,7 +42,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include "../menu.php"; ?>
 <h2>Crear Tanque</h2>
 <form method="post">
-    ID Tanque: <input type="number" name="id_tanque" required><br>
     Modelo: <input type="text" name="modelo" required><br>
     Nombre: <input type="text" name="nombre_tanque" required><br>
     Tipo: <input type="text" name="tipo_tanque" required><br>

@@ -8,11 +8,31 @@ if (!$id || !$tabla) {
     exit;
 }
 
-// Lógica para eliminación en cascada
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
-    $id = $_POST['id'];
-    $tabla = $_POST['tabla'];
+    // Eliminar en tanques en cascada
     if ($tabla === "tanques") {
+        // 1. Elimina dependencias manualmente
+        $sql = "DELETE FROM exhibiciones WHERE id_tanque = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $sql = "DELETE FROM mantenimientos WHERE id_tanque = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $sql = "DELETE FROM tanques_batallas WHERE id_tanque = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        $sql = "DELETE FROM especificaciones WHERE id_tanque = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // 2. Ahora sí elimina el tanque principal
         $sql = "DELETE FROM tanques WHERE id_tanque = ?";
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
@@ -25,6 +45,177 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
             exit;
         }
     }
+
+    // Eliminación en cascada manual de personal
+    if ($tabla === "personal") {
+        // Eliminar en mantenimiento_personal
+        $sql = "DELETE FROM mantenimiento_personal WHERE id_personal = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Eliminar el personal principal
+        $sql = "DELETE FROM personal WHERE id_personal = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de personal realizada con éxito.</p>";
+            echo "<a href='personal/read.php'>Volver a la lista</a>";
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error al eliminar el registro de personal. Comprueba las restricciones de integridad referencial.</p>";
+            exit;
+        }
+    }
+
+    // Eliminación en cascada manual de paises
+    if ($tabla === "paises") {
+        // 1. Buscar tanques de este país
+        $sql = "SELECT id_tanque FROM tanques WHERE id_pais = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        while ($row = $result->fetch_assoc()) {
+            $id_tanque = $row['id_tanque'];
+
+            // 2. Eliminar dependencias de cada tanque
+            $sql_dep = "DELETE FROM especificaciones WHERE id_tanque = ?";
+            $stmt_dep = $conn->prepare($sql_dep);
+            $stmt_dep->bind_param("i", $id_tanque);
+            $stmt_dep->execute();
+            $stmt_dep->close();
+
+            $sql_dep = "DELETE FROM tanques_batallas WHERE id_tanque = ?";
+            $stmt_dep = $conn->prepare($sql_dep);
+            $stmt_dep->bind_param("i", $id_tanque);
+            $stmt_dep->execute();
+            $stmt_dep->close();
+
+            $sql_dep = "DELETE FROM mantenimientos WHERE id_tanque = ?";
+            $stmt_dep = $conn->prepare($sql_dep);
+            $stmt_dep->bind_param("i", $id_tanque);
+            $stmt_dep->execute();
+            $stmt_dep->close();
+
+            $sql_dep = "DELETE FROM exhibiciones WHERE id_tanque = ?";
+            $stmt_dep = $conn->prepare($sql_dep);
+            $stmt_dep->bind_param("i", $id_tanque);
+            $stmt_dep->execute();
+            $stmt_dep->close();
+
+            // 3. Finalmente elimina el tanque
+            $sql_dep = "DELETE FROM tanques WHERE id_tanque = ?";
+            $stmt_dep = $conn->prepare($sql_dep);
+            $stmt_dep->bind_param("i", $id_tanque);
+            $stmt_dep->execute();
+            $stmt_dep->close();
+        }
+        $stmt->close();
+
+        // 4. Eliminar el país principal
+        $sql = "DELETE FROM paises WHERE id_pais = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de país realizada con éxito.</p>";
+            echo "<a href='paises/read.php'>Volver a la lista</a>";
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error al eliminar el registro de país. Comprueba las restricciones de integridad referencial.</p>";
+            exit;
+        }
+    }
+
+    // Eliminación en cascada manual de mantenimientos
+    if ($tabla === "mantenimientos") {
+        // Eliminar en mantenimiento_personal
+        $sql = "DELETE FROM mantenimiento_personal WHERE id_mantenimiento = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Eliminar el mantenimiento principal
+        $sql = "DELETE FROM mantenimientos WHERE id_mantenimiento = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de mantenimiento realizada con éxito.</p>";
+            echo "<a href='mantenimientos/read.php'>Volver a la lista</a>";
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error al eliminar el registro de mantenimiento. Comprueba las restricciones de integridad referencial.</p>";
+            exit;
+        }
+    }
+
+    // Eliminación en cascada manual de exhibiciones
+    if ($tabla === "exhibiciones") {
+        // Eliminar exhibicion_evento
+        $sql = "DELETE FROM exhibicion_evento WHERE id_exhibicion = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Eliminar la exhibición principal
+        $sql = "DELETE FROM exhibiciones WHERE id_exhibicion = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de exhibición realizada con éxito.</p>";
+            echo "<a href='exhibiciones/read.php'>Volver a la lista</a>";
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error al eliminar el registro de exhibición. Comprueba las restricciones de integridad referencial.</p>";
+            exit;
+        }
+    }
+
+    // Eliminación en cascada manual de eventos
+    if ($tabla === "eventos") {
+        // Eliminar en exhibicion_evento
+        $sql = "DELETE FROM exhibicion_evento WHERE id_evento = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Eliminar el evento principal
+        $sql = "DELETE FROM eventos WHERE id_evento = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de evento realizada con éxito.</p>";
+            echo "<a href='eventos/read.php'>Volver a la lista</a>";
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error al eliminar el registro de evento. Comprueba las restricciones de integridad referencial.</p>";
+            exit;
+        }
+    }
+
+    // Eliminación en cascada manual de batallas
+    if ($tabla === "batallas") {
+        // Eliminar en tanques_batallas
+        $sql = "DELETE FROM tanques_batallas WHERE id_batalla = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+
+        // Eliminar la batalla principal
+        $sql = "DELETE FROM batallas WHERE id_batalla = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de batalla realizada con éxito.</p>";
+            echo "<a href='batallas/read.php'>Volver a la lista</a>";
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error al eliminar el registro de batalla. Comprueba las restricciones de integridad referencial.</p>";
+            exit;
+        }
+    }
+
 }
 
 $dependencias = [];
@@ -106,55 +297,14 @@ if ($tabla === "tanques") {
     ];
 }
 
-/*if($tabla === 'exhibicion_evento') {
-    // Exhibiciones relacionadas
-    $sql = "SELECT * FROM exhibiciones WHERE id_exhibicion = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $dependencias['Exhibiciones'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    $columnas['Exhibiciones'] = [
-        'ID Exhibición' => 'id_exhibicion',
-        'Fecha' => 'fecha_exhibicion',
-        'Lugar' => 'lugar_exhibicion',
-        'Descripción' => 'descripcion_exhibicion',
-        'Tanque' => 'id_tanque'
-    ];
-    $acciones['Exhibiciones'] = [
-        'edit' => 'exhibiciones/update.php',
-        'delete' => 'exhibiciones/delete.php',
-        'id' => 'id_exhibicion'
-    ];
-
-    // Eventos relacionados
-    $sql = "SELECT * FROM eventos WHERE id_evento = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $dependencias['Eventos'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    $columnas['Eventos'] = [
-        'ID Evento' => 'id_evento',
-        'Nombre' => 'nombre_evento',
-        'Fecha Inicio' => 'fecha_in',
-        'Fecha Fin' => 'fecha_fin',
-        'Fecha' => 'fecha_evento',
-        'Descripción' => 'descripcion_evento'
-    ];
-    $acciones['Eventos'] = [
-        'edit' => 'eventos/update.php',
-        'delete' => 'eventos/delete.php',
-        'id' => 'id_evento'
-    ];
-}*/
-
 if($tabla === 'exhibiciones') {
-    // Exhibicion_evento relacionadas
+    // Exhibicion_evento relacionadas (hijos reales)
     $sql = "SELECT * FROM exhibicion_evento WHERE id_exhibicion = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $dependencias['Exhibicion_evento'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    $columnas['Exhibicion_evento'] = [
+    $columnas['Exhibicion_evento'] = [      
         'ID Exhibicion_evento' => 'id_EVEX',
         'ID Exhibición' => 'id_exhibicion',
         'ID Evento' => 'id_evento',
@@ -163,26 +313,6 @@ if($tabla === 'exhibiciones') {
         'edit' => 'exhibicion_evento/update.php',
         'delete' => 'exhibicion_evento/delete.php',
         'id' => 'id_EVEX'
-    ];
-
-    // Tanques relacionados
-    $sql = "SELECT * FROM tanques WHERE id_tanque = ?";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param("i", $id);
-    $stmt->execute();
-    $dependencias['Tanques'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-    $columnas['Tanques'] = [
-        'ID Tanque' => 'id_tanque',
-        'Modelo' => 'modelo',
-        'Nombre' => 'nombre_tanque',
-        'Tipo' => 'tipo_tanque',
-        'Año' => 'anio_fabricacion',
-        'Pais' => 'id_pais',
-    ];
-    $acciones['Tanques'] = [
-        'edit' => 'tanques/update.php',
-        'delete' => 'tanques/delete.php',
-        'id' => 'id_tanque'
     ];
 }
 
@@ -260,6 +390,24 @@ if($tabla === 'paises') {
         'edit' => 'tanques/update.php',
         'delete' => 'tanques/delete.php',
         'id' => 'id_tanque'
+    ];
+}
+
+if ($tabla === "personal") {
+    // Relación mantenimiento_personal
+    $sql = "SELECT * FROM mantenimiento_personal WHERE id_personal = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $id);
+    $stmt->execute();
+    $dependencias['Mantenimiento Personal'] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+    $columnas['Mantenimiento Personal'] = [
+        'ID Relación' => 'id_MP',
+        'ID Mantenimiento' => 'id_mantenimiento'
+    ];
+    $acciones['Mantenimiento Personal'] = [
+        'edit' => 'mantenimiento_personal/update.php',
+        'delete' => 'mantenimiento_personal/delete.php',
+        'id' => 'id_MP'
     ];
 }
 ?>

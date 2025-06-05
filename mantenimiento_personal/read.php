@@ -1,6 +1,6 @@
 <?php
 include_once "../config.php";
-$sql = "SELECT * FROM mantenimiento_personal ORDER BY id_MP";
+$sql = "SELECT * FROM mantenimiento_personal  JOIN personal ON mantenimiento_personal.id_personal = personal.id_personal ORDER BY id_MP";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -17,6 +17,7 @@ $result = $conn->query($sql);
         <th>ID Relación</th>
         <th>ID Mantenimiento</th>
         <th>ID Personal</th>
+        <th>Nombre Personal</th>
         <th>Acciones</th>
     </tr>
     <?php while($row = $result->fetch_assoc()): ?>
@@ -24,6 +25,7 @@ $result = $conn->query($sql);
         <td><?= $row['id_MP'] ?></td>
         <td><?= $row['id_mantenimiento'] ?></td>
         <td><?= $row['id_personal'] ?></td>
+        <td><?= htmlspecialchars($row['nombre_personal']) ?></td>
         <td>
             <a href="update.php?id=<?= $row['id_MP'] ?>">Editar</a> |
             <a href="delete.php?id=<?= $row['id_MP'] ?>" onclick="return confirm('¿Seguro que deseas borrar esta relación?')">Eliminar</a>

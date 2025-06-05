@@ -82,17 +82,17 @@
                 <ul>
                     <li> Vistas
                         <ul>
-                            <li><a href="/museotanques/vistaexhibiciones_eventos/create.php">Ver Vista Exhibiciones y Eventos</a></li>
+                            <li><a href="/museotanques/vistaexhibiciones_eventos/read.php">Ver Vista Exhibiciones y Eventos</a></li>
                             <li><a href="/museotanques/vistatanques_batallas/read.php">Ver Vista Tanques Batallas</a></li>
                         </ul>
                     </li>
                     <li> Informes
                         <ul>
-                            <li><a href="/museotanques/vistaexhibiciones_eventos/create.php">Ver Informe MANPE</a></li>
-                            <li><a href="/museotanques/vistatanques_batallas/read.php">Ver Informe EVEX</a></li>
+                            <li><a href="/museotanques/informe_manpe/read.php">Ver Informe MANPE</a></li>
+                            <li><a href="/museotanques/informe_evex/read.php">Ver Informe EVEX</a></li>
                         </ul>
                     </li>
-                    <li><a href="/museotanques/procedimientos.php">Ver Procedimiento</a></li> 
+                    <li><a href="/museotanques/procedimiento.php">Ver Procedimiento</a></li> 
                 </ul>
             </li>
             <li> Usuario

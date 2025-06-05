@@ -15,13 +15,14 @@ if ($id) {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fecha_exhibicion = $_POST["fecha_exhibicion"];
+        $nombre_exhibicion = $_POST["nombre_ex"];
         $lugar_exhibicion = $_POST["lugar_exhibicion"];
         $descripcion_exhibicion = $_POST["descripcion_exhibicion"];
         $id_tanque = $_POST["id_tanque"] ?: null;
 
-        $sql = "UPDATE exhibiciones SET fecha_exhibicion=?, lugar_exhibicion=?, descripcion_exhibicion=?, id_tanque=? WHERE id_exhibicion=?";
+        $sql = "UPDATE exhibiciones SET fecha_exhibicion=?, nombre_ex=?, lugar_exhibicion=?, descripcion_exhibicion=?, id_tanque=? WHERE id_exhibicion=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssii", $fecha_exhibicion, $lugar_exhibicion, $descripcion_exhibicion, $id_tanque, $id);
+        $stmt->bind_param("ssssii", $fecha_exhibicion, $nombre_ex, $lugar_exhibicion, $descripcion_exhibicion, $id_tanque, $id);
         if ($stmt->execute()) {
             $msg = "Exhibición actualizada correctamente.";
             // Refrescar datos
@@ -51,6 +52,7 @@ if ($id) {
 <h2>Editar Exhibición</h2>
 <form method="post">
     Fecha Exhibición: <input type="date" name="fecha_exhibicion" value="<?= $exhibicion['fecha_exhibicion'] ?>" required><br>
+    Nombre Exhibición: <input type="text" name="nombre_ex" maxlength="100" value="<?= htmlspecialchars($exhibicion['nombre_ex']) ?>" required><br>
     Lugar Exhibición: <input type="text" name="lugar_exhibicion" maxlength="100" value="<?= htmlspecialchars($exhibicion['lugar_exhibicion']) ?>" required><br>
     Descripción: <input type="text" name="descripcion_exhibicion" maxlength="255" value="<?= htmlspecialchars($exhibicion['descripcion_exhibicion']) ?>" required><br>
     Tanque (opcional): 
@@ -61,7 +63,7 @@ if ($id) {
                 <?= $row['id_tanque'] ?>
             </option>
         <?php endwhile; ?>
-    </select><br>
+    </select><br><br>
     <input type="submit" value="Actualizar">
     <input type="submit" value="Regresar" formaction="read.php" formnovalidate>
 </form>

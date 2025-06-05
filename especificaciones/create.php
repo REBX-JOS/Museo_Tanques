@@ -9,16 +9,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $velocidad_kmh = $_POST["velocidad_kmh"];
     $armamento_principal = $_POST["armamento_principal"];
 
-    // Primero: Verificar si ya existe una especificación para ese tanque
+    // Verificar si ya existe una especificación para ese tanque
     $sql_check_spec = "SELECT 1 FROM especificaciones WHERE id_tanque = ?";
     $stmt_check_spec = $conn->prepare($sql_check_spec);
     $stmt_check_spec->bind_param("i", $id_tanque);
     $stmt_check_spec->execute();
     $stmt_check_spec->store_result();
     if ($stmt_check_spec->num_rows > 0) {
-        $msg = "¡Ya existe una especificación para el tanque con ID $id_tanque!";
+        $msg = "¡Ya existe una especificación para el tanque seleccionado!";
     } else {
-        // Si existe, insertar la especificación
+        // Insertar la especificación (NO INSERTES id de especificación, solo el id_tanque)
         $sql = "INSERT INTO especificaciones 
             (id_tanque, peso_toneladas, longitud_metros, blindaje_mm, velocidad_kmh, armamento_principal)
             VALUES (?, ?, ?, ?, ?, ?)";
@@ -30,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $msg = "Error al crear la especificación: " . $conn->error;
         }
     }
-    
 }
 ?>
 <!DOCTYPE html>
@@ -43,13 +42,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <?php include "../menu.php"; ?>
 <h2>Crear Especificación</h2>
 <form method="post">
-    ID Tanque: 
+    Tanque: 
     <select name="id_tanque" required>
         <option value="">--Selecciona un tanque--</option>
         <?php
-        $result = $conn->query("SELECT id_tanque FROM tanques");
+        $result = $conn->query("SELECT id_tanque, nombre_tanque FROM tanques");
         while ($row = $result->fetch_assoc()) {
-            echo "<option value='" . $row['id_tanque'] . "'>" . $row['id_tanque'] . "</option>";
+            echo "<option value='" . $row['id_tanque'] . "'>" . htmlspecialchars($row['nombre_tanque']) . "</option>";
         }
         ?>
     </select><br>

@@ -2,6 +2,7 @@
 include_once "../config.php";
 $msg = "";
 $id = $_GET['id'] ?? null;
+
 if ($id) {
     $sql = "SELECT * FROM batallas WHERE id_batalla=?";
     $stmt = $conn->prepare($sql);
@@ -22,6 +23,12 @@ if ($id) {
         } else {
             $msg = "Error: " . $conn->error;
         }
+        // Recarga los datos editados
+        $sql = "SELECT * FROM batallas WHERE id_batalla=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $batalla = $stmt->get_result()->fetch_assoc();
     }
 } else {
     header("Location: read.php");

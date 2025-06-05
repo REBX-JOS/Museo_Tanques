@@ -1,6 +1,6 @@
 <?php
 include_once "../config.php";
-$sql = "SELECT * FROM mantenimientos ORDER BY id_mantenimiento";
+$sql = "SELECT * FROM mantenimientos m JOIN tanques t ON m.id_tanque = t.id_tanque ORDER BY m.id_mantenimiento";
 $result = $conn->query($sql);
 ?>
 <!DOCTYPE html>
@@ -16,6 +16,7 @@ $result = $conn->query($sql);
     <tr>
         <th>ID</th>
         <th>ID Tanque</th>
+        <th>Nombre Tanque</th>
         <th>Fecha</th>
         <th>Tipo</th>
         <th>Notas</th>
@@ -25,6 +26,7 @@ $result = $conn->query($sql);
     <tr>
         <td><?= $row['id_mantenimiento'] ?></td>
         <td><?= $row['id_tanque'] ?></td>
+        <td><?= htmlspecialchars($row['nombre_tanque']) ?></td>
         <td><?= $row['fecha_mantenimiento'] ?></td>
         <td><?= $row['tipo_mantenimiento'] ?></td>
         <td><?= $row['notas'] ?></td>
