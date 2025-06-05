@@ -8,6 +8,25 @@ if (!$id || !$tabla) {
     exit;
 }
 
+// Lógica para eliminación en cascada
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
+    $id = $_POST['id'];
+    $tabla = $_POST['tabla'];
+    if ($tabla === "tanques") {
+        $sql = "DELETE FROM tanques WHERE id_tanque = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        if ($stmt->execute()) {
+            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</p>";
+            echo "<a href='tanques/read.php'>Volver a la lista</a>";
+            exit;
+        } else {
+            echo "<p style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</p>";
+            exit;
+        }
+    }
+}
+
 $dependencias = [];
 // Definir columnas y archivos de acción para cada relación
 $columnas = [];
@@ -254,7 +273,15 @@ if($tabla === 'paises') {
 <?php include "menu.php"; ?>
 <h2>No puedes eliminar el registro seleccionado porque tiene relaciones en otras tablas</h2>
 <p><strong>ID:</strong> <?= htmlspecialchars($id) ?> (<strong>Tabla:</strong> <?= htmlspecialchars($tabla) ?>)</p>
-<p>Debes eliminar o modificar estos registros antes de poder eliminar el registro principal.</p>
+<p>Debes eliminar o modificar estos registros antes de poder eliminar el registro principal, o bien eliminar todas sus relaciones (ON CASCADE).</p>
+
+<form method="post" action="" onsubmit="return confirm('¿Seguro que deseas borrar este registro y todas sus relaciones?');">
+    <input type="hidden" name="on_cascade" value="1">
+    <input type="hidden" name="id" value="<?= htmlspecialchars($id) ?>">
+    <input type="hidden" name="tabla" value="<?= htmlspecialchars($tabla) ?>">
+    <input type="submit" value="Eliminar ON CASCADE">
+</form>
+
 <?php foreach ($dependencias as $nombre => $registros): ?>
     <?php if (count($registros) > 0): ?>
         <h3>Lista de <?= htmlspecialchars($nombre) ?></h3>
