@@ -37,12 +37,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
-            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</p>";
-            echo "<a href='tanques/read.php'>Volver a la lista</a>";
-            exit;
+            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada del tanque realizada con éxito.</span>";
         } else {
-            echo "<p style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</p>";
-            exit;
+            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
         }
     }
 
@@ -59,12 +56,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
-            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de personal realizada con éxito.</p>";
-            echo "<a href='personal/read.php'>Volver a la lista</a>";
-            exit;
+            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
         } else {
-            echo "<p style='color:red;'>Error al eliminar el registro de personal. Comprueba las restricciones de integridad referencial.</p>";
-            exit;
+            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
         }
     }
 
@@ -119,12 +113,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
-            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de país realizada con éxito.</p>";
-            echo "<a href='paises/read.php'>Volver a la lista</a>";
-            exit;
+            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
         } else {
-            echo "<p style='color:red;'>Error al eliminar el registro de país. Comprueba las restricciones de integridad referencial.</p>";
-            exit;
+            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
         }
     }
 
@@ -141,12 +132,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
-            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de mantenimiento realizada con éxito.</p>";
-            echo "<a href='mantenimientos/read.php'>Volver a la lista</a>";
-            exit;
+            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
         } else {
-            echo "<p style='color:red;'>Error al eliminar el registro de mantenimiento. Comprueba las restricciones de integridad referencial.</p>";
-            exit;
+            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
         }
     }
 
@@ -163,12 +151,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
-            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de exhibición realizada con éxito.</p>";
-            echo "<a href='exhibiciones/read.php'>Volver a la lista</a>";
-            exit;
+            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
         } else {
-            echo "<p style='color:red;'>Error al eliminar el registro de exhibición. Comprueba las restricciones de integridad referencial.</p>";
-            exit;
+            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
         }
     }
 
@@ -185,12 +170,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
-            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de evento realizada con éxito.</p>";
-            echo "<a href='eventos/read.php'>Volver a la lista</a>";
-            exit;
+            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
         } else {
-            echo "<p style='color:red;'>Error al eliminar el registro de evento. Comprueba las restricciones de integridad referencial.</p>";
-            exit;
+            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
         }
     }
 
@@ -207,12 +189,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['on_cascade'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bind_param("i", $id);
         if ($stmt->execute()) {
-            echo "<p style='color:green;font-weight:bold;'>Eliminación en cascada de batalla realizada con éxito.</p>";
-            echo "<a href='batallas/read.php'>Volver a la lista</a>";
-            exit;
+            $mensaje = "<span style='color:green;font-weight:bold;'>Eliminación en cascada realizada con éxito.</span>";
         } else {
-            echo "<p style='color:red;'>Error al eliminar el registro de batalla. Comprueba las restricciones de integridad referencial.</p>";
-            exit;
+            $mensaje = "<span style='color:red;'>Error al eliminar el registro principal. Comprueba las restricciones de integridad referencial.</span>";
         }
     }
 
@@ -419,6 +398,14 @@ if ($tabla === "personal") {
 </head>
 <body>
 <?php include "menu.php"; ?>
+
+<?php if ($mensaje): ?>
+    <br><div class="mensaje-exito"><?= $mensaje ?></div><br>
+    <!-- Puedes poner más lógica aquí, por ejemplo un botón para regresar -->
+    <form> <input type="submit" value="Regresar" formaction="<?= htmlspecialchars($tabla) ?>/read.php"></form>
+    <?php exit; ?>
+<?php endif; ?>
+
 <h2>No puedes eliminar el registro seleccionado porque tiene relaciones en otras tablas</h2>
 <p><strong>ID:</strong> <?= htmlspecialchars($id) ?> (<strong>Tabla:</strong> <?= htmlspecialchars($tabla) ?>)</p>
 <p>Debes eliminar o modificar estos registros antes de poder eliminar el registro principal, o bien eliminar todas sus relaciones (ON CASCADE).</p>
