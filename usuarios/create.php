@@ -39,6 +39,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     Usuario: <input type="text" name="usuario" required maxlength="20"><br>
     Contraseña: <input type="password" name="contrasena" required maxlength="30"><br><br>
     <input type="submit" value="Registrar">
+    <input type="submit" value="Regresar" formaction="read.php" formnovalidate>
 </form>
 <p><?= $msg ?></p>
 </body>

@@ -29,6 +29,7 @@ $result = $conn->query($sql);
         <td><?= $row['descripcion_evento'] ?></td>
     </tr>
     <?php endwhile; ?>
-</table>
+</table> <br>
+    <form> <input type="submit" value="Regresar" formaction="../index.php" formnovalidate> </form>
 </body>
 </html>
