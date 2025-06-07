@@ -10,8 +10,8 @@ if ($id) {
     $result = $stmt->get_result();
     $exhibicion = $result->fetch_assoc();
 
-    // Cargar tanques para el select
-    $tq = $conn->query("SELECT id_tanque FROM tanques");
+    // Cargar tanques para el select (mostrar nombre y no solo id)
+    $tq = $conn->query("SELECT id_tanque, nombre_tanque FROM tanques");
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fecha_exhibicion = $_POST["fecha_exhibicion"];
@@ -22,7 +22,7 @@ if ($id) {
 
         $sql = "UPDATE exhibiciones SET fecha_exhibicion=?, nombre_ex=?, lugar_exhibicion=?, descripcion_exhibicion=?, id_tanque=? WHERE id_exhibicion=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssii", $fecha_exhibicion, $nombre_ex, $lugar_exhibicion, $descripcion_exhibicion, $id_tanque, $id);
+        $stmt->bind_param("ssssii", $fecha_exhibicion, $nombre_exhibicion, $lugar_exhibicion, $descripcion_exhibicion, $id_tanque, $id);
         if ($stmt->execute()) {
             $msg = "Exhibición actualizada correctamente.";
             // Refrescar datos
@@ -51,7 +51,7 @@ if ($id) {
 <?php include "../menu.php"; ?>
 <h2>Editar Exhibición</h2>
 <form method="post">
-    Fecha Exhibición: <input type="date" name="fecha_exhibicion" value="<?= $exhibicion['fecha_exhibicion'] ?>" required><br>
+    Fecha Exhibición: <input type="date" name="fecha_exhibicion" value="<?= htmlspecialchars($exhibicion['fecha_exhibicion']) ?>" required><br>
     Nombre Exhibición: <input type="text" name="nombre_ex" maxlength="100" value="<?= htmlspecialchars($exhibicion['nombre_ex']) ?>" required><br>
     Lugar Exhibición: <input type="text" name="lugar_exhibicion" maxlength="100" value="<?= htmlspecialchars($exhibicion['lugar_exhibicion']) ?>" required><br>
     Descripción: <input type="text" name="descripcion_exhibicion" maxlength="255" value="<?= htmlspecialchars($exhibicion['descripcion_exhibicion']) ?>" required><br>
@@ -60,7 +60,7 @@ if ($id) {
         <option value="">-- Ninguno --</option>
         <?php while($row = $tq->fetch_assoc()): ?>
             <option value="<?= $row['id_tanque'] ?>" <?= $row['id_tanque'] == $exhibicion['id_tanque'] ? 'selected' : '' ?>>
-                <?= $row['id_tanque'] ?>
+                <?= htmlspecialchars($row['nombre_tanque']) ?>
             </option>
         <?php endwhile; ?>
     </select><br><br>

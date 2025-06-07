@@ -12,12 +12,12 @@ if ($id) {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fecha = $_POST["fecha"];
-        $nombre = $_POST["nombre_batalla"];
+        $nuevo_nombre = $_POST["nombre_batalla"];
         $lugar = $_POST["lugar_batalla"];
         $desc = $_POST["descripcion_batalla"];
         $sql = "UPDATE batallas SET fecha=?, nombre_batalla=?, lugar_batalla=?, descripcion_batalla=? WHERE id_batalla=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssi", $fecha, $nombre, $lugar, $desc, $id);
+        $stmt->bind_param("ssssi", $fecha, $nuevo_nombre, $lugar, $desc, $id);
         if ($stmt->execute()) {
             $msg = "Batalla actualizada correctamente.";
         } else {
@@ -45,10 +45,10 @@ if ($id) {
 <?php include "../menu.php"; ?>
 <h2>Editar Batalla</h2>
 <form method="post">
-    Fecha: <input type="date" name="fecha" value="<?= $batalla['fecha'] ?>" required><br>
-    Nombre: <input type="text" name="nombre_batalla" value="<?= $batalla['nombre_batalla'] ?>" required><br>
-    Lugar: <input type="text" name="lugar_batalla" value="<?= $batalla['lugar_batalla'] ?>" required><br>
-    Descripción (máx 50): <input type="text" name="descripcion_batalla" maxlength="50" value="<?= $batalla['descripcion_batalla'] ?>" required><br>
+    Fecha: <input type="date" name="fecha" value="<?= htmlspecialchars($batalla['fecha']) ?>" required><br>
+    Nombre: <input type="text" name="nombre_batalla" value="<?= htmlspecialchars($batalla['nombre_batalla']) ?>" required><br>
+    Lugar: <input type="text" name="lugar_batalla" value="<?= htmlspecialchars($batalla['lugar_batalla']) ?>" required><br>
+    Descripción (máx 50): <input type="text" name="descripcion_batalla" maxlength="50" value="<?= htmlspecialchars($batalla['descripcion_batalla']) ?>" required><br>
     <input type="submit" value="Actualizar">
     <input type="submit" value="Regresar" formaction="read.php" formnovalidate>
 </form>

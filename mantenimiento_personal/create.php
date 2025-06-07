@@ -1,7 +1,7 @@
-// Se utiliza JavaScript para manejar la creación de relaciones entre mantenimientos y personal.
+<!-- Se utiliza JavaScript para manejar la creación de relaciones entre mantenimientos y personal.
 // Se utiliza AJAX para cargar los mantenimientos de un tanque seleccionado.
 // Este script permite seleccionar un tanque, mostrar sus mantenimientos y crear una relación con el personal.
-// Este script maneja la creación de relaciones entre mantenimientos y personal.
+// Este script maneja la creación de relaciones entre mantenimientos y personal.-->
 <?php
 include_once "../config.php";
 $msg = "";

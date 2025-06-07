@@ -25,6 +25,13 @@ if ($id) {
         } else {
             $msg = "Error: " . $conn->error;
         }
+        // Refrescar datos editados
+        $sql = "SELECT * FROM especificaciones WHERE id_tanque=?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $especificacion = $result->fetch_assoc();
     }
 } else {
     header("Location: read.php");
@@ -41,11 +48,11 @@ if ($id) {
 <?php include "../menu.php"; ?>
 <h2>Editar Especificación</h2>
 <form method="post">
-    Peso (toneladas): <input type="number" step="0.01" name="peso_toneladas" value="<?= $especificacion['peso_toneladas'] ?>" required><br>
-    Longitud (metros): <input type="number" step="0.01" name="longitud_metros" value="<?= $especificacion['longitud_metros'] ?>" required><br>
-    Blindaje (mm): <input type="number" name="blindaje_mm" value="<?= $especificacion['blindaje_mm'] ?>" required><br>
-    Velocidad (km/h): <input type="number" step="0.01" name="velocidad_kmh" value="<?= $especificacion['velocidad_kmh'] ?>" required><br>
-    Armamento principal: <input type="text" name="armamento_principal" maxlength="100" value="<?= $especificacion['armamento_principal'] ?>" required><br>
+    Peso (toneladas): <input type="number" step="0.01" name="peso_toneladas" value="<?= htmlspecialchars($especificacion['peso_toneladas']) ?>" required><br>
+    Longitud (metros): <input type="number" step="0.01" name="longitud_metros" value="<?= htmlspecialchars($especificacion['longitud_metros']) ?>" required><br>
+    Blindaje (mm): <input type="number" name="blindaje_mm" value="<?= htmlspecialchars($especificacion['blindaje_mm']) ?>" required><br>
+    Velocidad (km/h): <input type="number" step="0.01" name="velocidad_kmh" value="<?= htmlspecialchars($especificacion['velocidad_kmh']) ?>" required><br>
+    Armamento principal: <input type="text" name="armamento_principal" maxlength="100" value="<?= htmlspecialchars($especificacion['armamento_principal']) ?>" required><br>
     <input type="submit" value="Actualizar">
     <input type="submit" value="Regresar" formaction="read.php" formnovalidate>
 </form>

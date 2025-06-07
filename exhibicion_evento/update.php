@@ -1,11 +1,15 @@
 <?php
 include_once "../config.php";
 $msg = "";
-$id = $_GET['id'] ?? null;
+$id = $_GET['id'] ?? null; // id_EVEX de la tabla exhibicion_evento
 
 if ($id) {
-    // Obtener la relación actual
-    $sql = "SELECT * FROM exhibicion_evento WHERE id_EVEX=?";
+    // Obtener la relación actual por id_EVEX
+    $sql = "SELECT ee.*, ex.id_exhibicion, ex.nombre_ex, ev.id_evento, ev.nombre_evento
+            FROM exhibicion_evento ee
+            JOIN exhibiciones ex ON ex.id_exhibicion = ee.id_exhibicion
+            JOIN eventos ev ON ev.id_evento = ee.id_evento
+            WHERE ee.id_EVEX = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
@@ -33,7 +37,11 @@ if ($id) {
         if ($stmt->execute()) {
             $msg = "Relación actualizada correctamente.";
             // Volver a cargar los datos actualizados
-            $sql = "SELECT * FROM exhibicion_evento WHERE id_EVEX=?";
+            $sql = "SELECT ee.*, ex.id_exhibicion, ex.nombre_ex, ev.id_evento, ev.nombre_evento
+                    FROM exhibicion_evento ee
+                    JOIN exhibiciones ex ON ex.id_exhibicion = ee.id_exhibicion
+                    JOIN eventos ev ON ev.id_evento = ee.id_evento
+                    WHERE ee.id_EVEX = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             $stmt->execute();

@@ -1,21 +1,27 @@
 <?php
 include_once "../config.php";
 $msg = "";
-$id = $_GET['id'] ?? null;
+$id = $_GET['id'] ?? null; // id_TB de la tabla tanques_batallas
+
 if ($id) {
-    // Obtener la relación actual
-    $sql = "SELECT * FROM tanques_batallas WHERE id_TB=?";
+    // Obtener la relación actual por id_TB
+    $sql = "SELECT tb.*, t.id_tanque, t.nombre_tanque, b.id_batalla, b.nombre_batalla
+            FROM tanques_batallas tb
+            JOIN tanques t ON tb.id_tanque = t.id_tanque
+            JOIN batallas b ON tb.id_batalla = b.id_batalla
+            WHERE tb.id_TB = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
     $relacion = $stmt->get_result()->fetch_assoc();
 
-    // Cargar tanques y batallas para los select
+    // Cargar tanques (por id y nombre)
     $tanques = [];
     $result = $conn->query("SELECT id_tanque, nombre_tanque FROM tanques");
     while ($row = $result->fetch_assoc()) {
         $tanques[] = $row;
     }
+    // Cargar batallas (por id y nombre)
     $batallas = [];
     $result = $conn->query("SELECT id_batalla, nombre_batalla FROM batallas");
     while ($row = $result->fetch_assoc()) {
@@ -23,15 +29,21 @@ if ($id) {
     }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $id_tanque = $_POST["id_tanque"];
-        $id_batalla = $_POST["id_batalla"];
+        $nuevo_id_tanque = $_POST["id_tanque"];
+        $nuevo_id_batalla = $_POST["id_batalla"];
+
+        // Actualizar la relación
         $sql = "UPDATE tanques_batallas SET id_tanque=?, id_batalla=? WHERE id_TB=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iii", $id_tanque, $id_batalla, $id);
+        $stmt->bind_param("iii", $nuevo_id_tanque, $nuevo_id_batalla, $id);
         if ($stmt->execute()) {
-            $msg = "Relacion actualizada correctamente.";
-            // Recargar datos actualizados
-            $sql = "SELECT * FROM tanques_batallas WHERE id_TB=?";
+            $msg = "Relación actualizada correctamente.";
+            // Refrescar datos
+            $sql = "SELECT tb.*, t.id_tanque, t.nombre_tanque, b.id_batalla, b.nombre_batalla
+                    FROM tanques_batallas tb
+                    JOIN tanques t ON tb.id_tanque = t.id_tanque
+                    JOIN batallas b ON tb.id_batalla = b.id_batalla
+                    WHERE tb.id_TB = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $id);
             $stmt->execute();
@@ -53,7 +65,7 @@ if ($id) {
 </head>
 <body>
 <?php include "../menu.php"; ?>
-<h2>Editar Relacion Tanque-Batalla</h2>
+<h2>Editar Relación Tanque-Batalla</h2>
 <form method="post">
     Tanque:
     <select name="id_tanque" required>

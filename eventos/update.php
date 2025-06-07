@@ -13,12 +13,12 @@ if ($id) {
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fecha_in = $_POST["fecha_in"];
         $fecha_fin = $_POST["fecha_fin"];
-        $nombre_evento = $_POST["nombre_evento"];
+        $nuevo_nombre = $_POST["nombre_evento"];
         $descripcion_evento = $_POST["descripcion_evento"];
 
         $sql = "UPDATE eventos SET fecha_in=?, fecha_fin=?, nombre_evento=?, descripcion_evento=? WHERE id_evento=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("ssssi", $fecha_in, $fecha_fin, $nombre_evento, $descripcion_evento, $id);
+        $stmt->bind_param("ssssi", $fecha_in, $fecha_fin, $nuevo_nombre, $descripcion_evento, $id);
         if ($stmt->execute()) {
             $msg = "Evento actualizado correctamente.";
             // Refrescar datos

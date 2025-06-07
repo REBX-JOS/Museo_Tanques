@@ -15,14 +15,14 @@ if ($id) {
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $modelo = $_POST["modelo"];
-        $nombre_tanque = $_POST["nombre_tanque"];
+        $nuevo_nombre_tanque = $_POST["nombre_tanque"];
         $tipo_tanque = $_POST["tipo_tanque"];
         $anio_fabricacion = $_POST["anio_fabricacion"];
         $id_pais = $_POST["id_pais"] ?: null;
 
         $sql = "UPDATE tanques SET modelo=?, nombre_tanque=?, tipo_tanque=?, anio_fabricacion=?, id_pais=? WHERE id_tanque=?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("sssiii", $modelo, $nombre_tanque, $tipo_tanque, $anio_fabricacion, $id_pais, $id);
+        $stmt->bind_param("sssiii", $modelo, $nuevo_nombre_tanque, $tipo_tanque, $anio_fabricacion, $id_pais, $id);
         if ($stmt->execute()) {
             $msg = "Tanque actualizado correctamente.";
             // Refrescar datos

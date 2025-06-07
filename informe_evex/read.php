@@ -33,6 +33,9 @@ if ($res && $res->num_rows > 0) {
 <?php include "../menu.php"; ?>
 <h2>Informe: Eventos con Exhibiciones</h2>
 <?php if($msg) echo "<p>$msg</p>"; ?>
+Descargar el informe en PDF:
+<form action="download_informe.php" method="post" target="_blank" style="display:inline;">
+    <input type="submit" value="Descargar informe en PDF" class="boton_pdf">  </form><br><br>
 <?php if($datos): ?>
     <table border="1">
         <tr>
@@ -53,7 +56,8 @@ if ($res && $res->num_rows > 0) {
                 <td><?= htmlspecialchars($fila['descripcion_exhibicion']) ?></td>
             </tr>
         <?php endforeach; ?>
-    </table>
+    </table> <br>
+    <form> <input type="submit" value="Regresar" formaction="../index.php"></form>
 <?php endif; ?>
 </body>
 </html>

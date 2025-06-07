@@ -70,6 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <?php endforeach; ?>
     </table>
 <?php endif; ?> <br>
-<form> <input type="submit" value="Regresar" formaction="read.php" formnovalidate> </form>
+<form> <input type="submit" value="Regresar" formaction="index.php" formnovalidate> </form>
 </body>
 </html>
