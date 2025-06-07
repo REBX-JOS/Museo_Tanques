@@ -97,3 +97,21 @@ input[type="submit"] {
     color: #fff; 
     border: none; 
 }
+
+.button-link {
+    background: none;
+    border: none;
+    color: #0000EE;
+    text-decoration: underline;
+    cursor: pointer;
+    font: inherit;
+    padding: 0;
+    margin: 0;
+}
+.button-link:visited {
+    color: #551A8B;
+}
+.button-link:hover {
+    color: #E60000;
+    text-decoration: underline;
+}
